@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Photo Message</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#19A2B8">
+    <link rel="icon" href="/icons/favicon.ico" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/modules/toastr/build/toastr.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+    <style media="screen">
+      #camera.withphoto {
+        color: transparent !important;
+        background-size: cover;
+      }
+      #toast-container {
+        top: 0;
+        left: 0;
+        width: 100%;
+      }
+      #toast-container > div {
+        opacity: 1;
+        box-shadow: 0 0 2rem rgba(0, 0, 0, 0.75);
+        border-radius: 0;
+        width: 100%;
+      }
+    </style>
+
+  </head>
+  <body class="bg-info">
+
+    <main class="p-2">
+      <div id="messages" class="container-fluid">
+        <div id="loader" class="text-center text-light" style="margin-top:10rem;">
+          <i class="fas fa-spinner fa-2x fa-pulse"></i>
+          <p>Loading Messages</p>
+        </div>
+      </div>
+    </main>
+
+    <div class="container-fluid fixed-bottom">
+      <div id="toolbar" class="row bg-dark">
+        <div class="col p-2 d-flex">
+
+          <button data-toggle="modal" data-target="#viewfinder" id="camera" class="fas fa-camera fa-lg px-3 mr-2 text-light border-light bg-dark rounded-circle"></button>
+          <textarea id="caption" placeholder="Image Caption..." style="resize:none;" maxlength="120" class="flex-grow-1 w-100 rounded border-light align-middle pr-5"></textarea>
+          <a id="send" style="right:1.25rem; bottom:1.25rem; padding: 0.5rem;" class="fas fa-paper-plane fa-lg position-absolute text-dark"></a>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Camera Modal -->
+    <div id="viewfinder" class="modal fade" tabindex="-1" role="dialog" area-hidden="true">
+      <div class="modal-dialog fixed-bottom" role="document">
+        <div class="modal-content bg-dark">
+          <div class="modal-body p-1 text-center">
+
+            <video id="player" autoplay class="w-100 rounded"></video>
+            <button data-dismiss="modal" type="button" id="shutter" class="fas fa-circle fa-3x rounded-circle bg-white text-danger p-1 my-2"></button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Photo Modal -->
+    <div class="modal fade" id="photoframe" tabindex="-1" role="dialog" area-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body p-1">
+            <img src="" class="w-100 rounded" data-dismiss="modal">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/modules/jquery/dist/jquery.min.js"></script>
+    <script src="/modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/modules/toastr/build/toastr.min.js"></script>
+    <script src="/Classes/Camera.js"></script>
+    <script src="/Classes/Message.js"></script>
+    <script src="/main.js"></script>
+
+    <!-- Init App if Supported -->
+    <script>
+
+      // Check compatibillity
+      if ( 'mediaDevices' in navigator ) {
+
+        // Init App
+        _init();
+
+        // Register SW if supported
+        if ( 'serviceWorker' in navigator ) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js');
+          });
+        }
+
+      } else {
+        // Show notification
+        toastr.error( null, 'This app is not supported by your browser.', {timeout: 30000});
+      }
+
+    </script>
+
+  </body>
+</html>
