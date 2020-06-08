@@ -12,7 +12,7 @@ https://codeseven.github.io/toastr/</br>
 
 Further Learning
 =======================
-https://web.dev/progressive-web-apps/
-https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps
-https://jakearchibald.github.io/isserviceworkerready/
-https://hnpwa.com/
+https://web.dev/progressive-web-apps/</br>
+https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps</br>
+https://jakearchibald.github.io/isserviceworkerready/</br>
+https://hnpwa.com/</br>
